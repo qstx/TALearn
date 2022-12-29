@@ -8,7 +8,7 @@ Shader "StencilTest/CubeShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline"="Universal RenderPipeline" "Queue"="Geometry"}
+        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry"}
         LOD 100
         
         HLSLINCLUDE
@@ -61,6 +61,7 @@ Shader "StencilTest/CubeShader"
                 Ref [_StencilMask]
                 Comp Always
                 Pass Replace
+                ZFail Keep
             }
             Tags {
                 "LightMode"="UniversalForward"

@@ -8,7 +8,7 @@ Shader "StencilTest/SphereShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline"="Universal RenderPipeline" "Queue"="Geometry+1"}
+        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry+1"}
         LOD 100
 
         HLSLINCLUDE
