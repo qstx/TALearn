@@ -56,6 +56,12 @@ Shader "StencilTest/CubeShader"
         
         Pass
         {
+            Stencil
+            {
+                Ref [_StencilMask]
+                Comp Always
+                Pass Replace
+            }
             Tags {
                 "LightMode"="UniversalForward"
             }
@@ -64,23 +70,17 @@ Shader "StencilTest/CubeShader"
             #pragma fragment frag
             ENDHLSL
         }
-        Pass
-        {
-            Tags {
-                "LightMode"="SRPDefaultUnlit"
-            }
-            Stencil
-            {
-                Ref [_StencilMask]
-                Comp Always
-                Pass Replace
-            }
-            ZTest Off
-            ZWrite Off
-            HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            ENDHLSL
-        }
+        //Pass
+        //{
+        //    Tags {
+        //        "LightMode"="SRPDefaultUnlit"
+        //    }
+        //    ZTest Off
+        //    ZWrite Off
+        //    HLSLPROGRAM
+        //    #pragma vertex vert
+        //    #pragma fragment frag
+        //    ENDHLSL
+        //}
     }
 }

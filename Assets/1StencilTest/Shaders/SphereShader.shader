@@ -2,7 +2,8 @@ Shader "StencilTest/SphereShader"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,0)
+        _Color1 ("Color", Color) = (1,1,0)
+        _Color2 ("Color", Color) = (0,1,1)
         [IntRange]_StencilRef("Stencil Ref", Range(0,255)) = 0
     }
     SubShader
@@ -25,7 +26,8 @@ Shader "StencilTest/SphereShader"
             float4 vertex : SV_POSITION;
         };
 
-        half4 _Color;
+        half4 _Color1;
+        half4 _Color2;
 
         v2f vert (appdata v)
         {
@@ -36,11 +38,11 @@ Shader "StencilTest/SphereShader"
 
         half4 frag (v2f i) : SV_Target
         {
-            return half4(_Color.rgb,1);
+            return half4(_Color1.rgb,1);
         }
         half4 frag2 (v2f i) : SV_Target
         {
-            return half4(1,1,1,1);
+            return half4(_Color2.rgb,1);
         }
         ENDHLSL
         Pass
@@ -57,7 +59,7 @@ Shader "StencilTest/SphereShader"
             }
             HLSLPROGRAM
             #pragma vertex vert
-            #pragma fragment frag
+            #pragma fragment frag2
             ENDHLSL
         }
         Pass
@@ -65,10 +67,9 @@ Shader "StencilTest/SphereShader"
             Tags {
                 "LightMode"="SRPDefaultUnlit"
             }
-            ZTest LEqual
             HLSLPROGRAM
             #pragma vertex vert
-            #pragma fragment frag2
+            #pragma fragment frag
             ENDHLSL
         }
     }
