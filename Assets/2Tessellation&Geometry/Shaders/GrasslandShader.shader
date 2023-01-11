@@ -9,14 +9,14 @@ Shader "TALearn/TessellationAndGeometry/GrassGroundShader"
         //욱똑
         _BladeWidth("Blade Width",Float)=0.05
         _BladeWidthRandom("Blade Width Random",Float)=0.02
-        _BladeHeight("Blade Height",Float)=0.5
+        _BladeHeight("Blade Height",Range(0.5,1.5))=0.5
         _BladeHeightRandom("Blade Height Random",Float)=0.3
 
-        _TessellationUniform("Tessellation Uniform",Range(1,64))=1
+        _TessellationUniform("Tessellation Uniform",Range(10,20))=10
         //루
         _WindDistortionMap("Wind Distortion Map", 2D) = "white" {}
         _WindFrequency("Wind Frequency", Vector) = (0.05, 0.05, 0, 0)
-        _WindStrength("Wind Strength",Float) = 1
+        _WindStrength("Wind Strength",Range(0.1,1)) = 1
     }
     SubShader
     {
@@ -191,11 +191,12 @@ Shader "TALearn/TessellationAndGeometry/GrassGroundShader"
                 //루
                 float2 uv = pos.xz * _WindDistortionMap_ST.xy + _WindDistortionMap_ST.zw + _WindFrequency * _Time.y;
                 float2 windSample = (tex2Dlod(_WindDistortionMap,float4(uv,0,0)).xy * 2 - 1) * _WindStrength;
-                float3 wind = normalize(float3(windSample,0));//Wind Vector
+                float3 wind = normalize(float3(windSample.x,windSample.y,0));//Wind Vector
                 float3x3 windRotation = AngleAxis3x3(PI * windSample, wind);
                 float3x3 transformationMatrix=mul(mul(mul(tangentToLocal,facingRotationMatrix),bendRotationMatrix),windRotation);
-                triStream.Append(VertexOutput(pos + mul(transformationMatrix,float3(width,0.0f,0.0f)),float2(0,0)));
-                triStream.Append(VertexOutput(pos + mul(transformationMatrix,float3(-width,0.0f,0.0f)),float2(1,0)));
+                float3x3 transformationMatrixFacing = mul(tangentToLocal,facingRotationMatrix);
+                triStream.Append(VertexOutput(pos + mul(transformationMatrixFacing,float3(width,0.0f,0.0f)),float2(0,0)));
+                triStream.Append(VertexOutput(pos + mul(transformationMatrixFacing,float3(-width,0.0f,0.0f)),float2(1,0)));
                 triStream.Append(VertexOutput(pos + mul(transformationMatrix,float3(0.0f,0.0f,height)),float2(0.5f,1)));
             }
 
