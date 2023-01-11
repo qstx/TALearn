@@ -1,9 +1,9 @@
-Shader "StencilTest/SphereShader"
+Shader "TALearn/StencilTest/SphereShader"
 {
     Properties
     {
-        _Color1 ("Color", Color) = (1,1,0)
-        _Color2 ("Color", Color) = (0,1,1)
+        _Color1 ("Color1", Color) = (1,1,0)
+        _Color2 ("Color2", Color) = (0,1,1)
         [IntRange]_StencilRef("Stencil Ref", Range(0,255)) = 0
     }
     SubShader
@@ -45,12 +45,13 @@ Shader "StencilTest/SphereShader"
             return half4(_Color2.rgb,1);
         }
         ENDHLSL
-        Pass
+        Pass//被遮挡部分
         {
             Tags {
                 "LightMode"="UniversalForward"
             }
             ZTest Greater
+            ZWrite Off
             Stencil
             {
                 Ref [_StencilRef]
@@ -62,7 +63,7 @@ Shader "StencilTest/SphereShader"
             #pragma fragment frag2
             ENDHLSL
         }
-        Pass
+        Pass//未被遮挡部分
         {
             Tags {
                 "LightMode"="SRPDefaultUnlit"

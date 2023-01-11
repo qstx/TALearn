@@ -1,4 +1,4 @@
-Shader "StencilTest/CubeShader"
+Shader "TALearn/StencilTest/CubeShader"
 {
     Properties
     {

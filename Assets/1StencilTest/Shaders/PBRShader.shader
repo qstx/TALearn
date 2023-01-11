@@ -1,4 +1,4 @@
-Shader "StencilTest/PBRShader"
+Shader "TALearn/StencilTest/PBRShader"
 {
     Properties
     {
